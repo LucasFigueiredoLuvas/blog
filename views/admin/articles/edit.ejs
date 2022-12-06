@@ -1,0 +1,69 @@
+<%- include('../../partials/header.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+<body>
+    <div class="container">
+        <hr>
+        <div class="card">
+            <div class="card-header">
+                <h2>Editar Artigo</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/admin/articles/update">
+                    <input type="hidden" name="id" value="<%= article.id %>">
+                    <input 
+                        name="title"    
+                        id="title"
+                        class="form-control" 
+                        type="text" 
+                        placeholder="Insira o título do artigo"
+                        value="<%= article.title %>"
+                    >
+                    <br>
+                    <textarea 
+                        name="body" 
+                        id="body"
+                        class="form-control"
+                        value=""
+                    ></textarea>
+                    <br>
+                    <select class="form-control" name="category" id="category">
+                        <% categories.forEach((category) => { %>
+                            <% if(category.id == article.categoryId) { %>
+                                <option 
+                                name="categoryID" 
+                                value="<%= category.id %>"
+                                selected>
+                                    <%= category.title %>
+                                </option>
+                            <% } else { %>
+                                <option 
+                                name="categoryID" 
+                                value="<%= category.id %>">
+                                    <%= category.title %>
+                                </option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                    <br>
+                    <input class="btn btn-success" type="submit" value="Salvar Alterações">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="content" style="display: none;">
+        <%- article.body %>
+    </div>
+</body>
+
+<%- include('../../partials/footer.ejs') %>
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: "#body",
+        activeEditor: true,
+        plugins: 'autolink code emoticons image insertdatetime link preview table',
+        init_instance_callback: () => {
+            tinymce.activeEditor.setContent(document.getElementById('content').innerHTML);
+        }
+    })
+</script>

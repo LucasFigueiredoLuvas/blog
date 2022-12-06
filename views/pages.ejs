@@ -1,0 +1,45 @@
+<%- include('partials/header.ejs') %>
+<%- include('partials/homeNavbar.ejs') %>
+<body>
+    <div class="container">
+        <hr>
+        <% pagination.articles.rows.forEach(article => { %>
+            <div class="card" style="background: #f1efef;">
+                <div class="card-header">
+                    <h2><%= article.title %></h2>
+                </div>
+
+                <div class="card-body">
+                    <a name="read" href="/articles/<%= article.slug %>">Ler artigo</a>
+                </div>
+            </div>
+            <br>
+        <% }); %>
+
+        <% if (pagination.page > 2) { %>
+            <div style="float:left;">
+                <a href="/articles/page/<%= pagination.page - 1 %>">
+                    <i class="bi bi-arrow-left-circle-fill"></i>
+                    <i class="bi bi-arrow-left-circle-fill"></i>
+                    <i class="bi bi-arrow-left-circle-fill"></i>
+                </a><br>
+            </div>
+        <% } else if (pagination.page == 2) { %>
+            <div style="float:left;">
+                <a href="/">Home</a>
+            </div>
+        <% } %>
+        <% if (pagination.next) { %>
+            <div style="float:right;">
+                <a href="/articles/page/<%= pagination.page + 1 %>">
+                    <i class="bi bi-arrow-right-circle-fill"></i>
+                    <i class="bi bi-arrow-right-circle-fill"></i>
+                    <i class="bi bi-arrow-right-circle-fill"></i>
+                </a><br>
+            </div>
+        <% } %>
+        <hr>
+    </div>
+</body>
+
+<%- include('partials/footer.ejs') %>

@@ -1,0 +1,59 @@
+<%- include('../../partials/header.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>Usuários</h2>
+            <a href="/admin/user/new" class="btn btn-success">Novo Usuário</a>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Data de Criação</th>
+                        <th>Última Modificação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach((user) => { %>
+                        <tr>
+                            <th><%= user.id %></th>
+                            <th><%= user.email %></th>
+                            <th><%= user.createdAt %></th>
+                            <th><%= user.updatedAt %></th>
+                            <th>
+                                <a 
+                                class="btn btn-warning" 
+                                href="/admin/user/edit/<%  %>">
+                                    Editar
+                                </a>
+                                
+                                <form 
+                                action="/admin/user/delete"
+                                style="display:inline;"
+                                onsubmit="confirmation(event, this)"
+                                method="POST">
+                                    <input type="hidden" name="id" id="id" value="<%  %>">
+                                    <button class="btn btn-danger">Excluir</button>
+                                </form>
+                            </th>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmation(event, form) {
+        event.preventDefault();
+        let decision = confirm('Deseja deletar?');
+        if(decision) form.submit();
+    }
+</script>
+
+<%- include('../../partials/footer.ejs') %>
